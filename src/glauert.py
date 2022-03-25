@@ -2,7 +2,20 @@
 from numpy  import ndarray, sqrt, zeros
 
 
-def glauert_correction(ct: ndarray) -> ndarray:
+def glauertCorrection(ct: ndarray) -> ndarray:
+    """
+    Parameters
+    ----------
+    Ct : int
+        Thrust coefficient
+
+    Returns
+    -------
+    a: ndarray
+        induction  factor
+
+    """
+
     ct1 = 1.816
     ct2 = 2*sqrt(ct1)-ct1
 
