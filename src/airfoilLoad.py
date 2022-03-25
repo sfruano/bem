@@ -9,7 +9,7 @@ Created on Tue Mar 22 10:21:30 2022
 import numpy as np
 
 ##############################################################################
-def computeAirfoilLoad(uNorm, uTang, alpha_data, lift_data, drag_data, chord_data, twist_data):
+def computeAirfoilLoad(uNorm, uTang, alpha_data, lift_data, drag_data, chord_data, twist_data, airDensity):
     '''
     
 
@@ -39,14 +39,15 @@ def computeAirfoilLoad(uNorm, uTang, alpha_data, lift_data, drag_data, chord_dat
 
     '''
     mag = uNorm**2 + uTang**2
-    ainflow = np.arctan2(uNorm,uTang) * (180/np.pi)
+    ainflow = np.arctan(uNorm/uTang) * (180/np.pi)
     aoa = ainflow - twist_data                                          # Twist already includes pitch!
     clInterp = np.interp(aoa, alpha_data, lift_data)
     cdInterp = np.interp(aoa, alpha_data, drag_data)
-    lift = 0.5*mag*clInterp*chord_data
-    drag = 0.5*mag*cdInterp*chord_data
-    fN = lift*np.cos(ainflow)+drag*np.sin(ainflow)
-    fTan = lift*np.sin(ainflow)-drag*np.cos(ainflow)
+    lift = 0.5*airDensity*mag*clInterp*chord_data
+    drag = 0.5*airDensity*mag*cdInterp*chord_data
+    ainflow_rad = ainflow*np.pi/180.0
+    fN = lift*np.cos(ainflow_rad)+drag*np.sin(ainflow_rad)
+    fTan = lift*np.sin(ainflow_rad)-drag*np.cos(ainflow_rad)
     
     return fN, fTan
 
