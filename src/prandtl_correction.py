@@ -1,17 +1,18 @@
 
 import numpy as np  
 
-def Prandtl_corrections(r,R, Rroot, lamda, nblades, a)
+def Prandtl_corrections(ratio, Rroot, lamda, nblades, a)
 
 """"
 r = radial position of the blade
 R = Turbine radius
+ratio = r/R
 Rroot = Root radius
 lamda = Tip speed ratio
 nblades = Number of blades 
 a = Axial induction 
 """""
-ratio = r/R
+
 
 num1 = -nblades/2*(1-ratio)/ratio*np.sqrt( 1+ ((lamda*ratio)**2)/((1-a)**2))
 Ftip = np.array(2/np.pi*np.arccos(np.exp(num1)))
